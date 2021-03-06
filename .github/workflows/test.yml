@@ -14,5 +14,5 @@ jobs:
     - name: Test
       env:
         GO111MODULE: on
-      run: ls
+      run: go test -v ./...
 
