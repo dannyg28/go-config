@@ -16,7 +16,8 @@ jobs:
     - name: Create a Release
       uses: zendesk/action-create-release@v1
       with:
-        auto_increment_type: minor
+        auto_increment_type: patch
+        tag_schema: semantic
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
