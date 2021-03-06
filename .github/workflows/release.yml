@@ -1,5 +1,7 @@
 name: Test
 on:
+  pull_request:
+    branches: [main]
   push:
     branches: [ main ]
 jobs:
@@ -14,6 +16,7 @@ jobs:
     - name: Test
       run: go test -v ./...
     - name: Create a Release
+      if: github.ref == 'refs/heads/main'
       uses: zendesk/action-create-release@v1
       with:
         auto_increment_type: patch
