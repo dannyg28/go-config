@@ -1,4 +1,4 @@
-module go-config
+module github.com/dannyg28/go-config
 
 go 1.15
 
