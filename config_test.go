@@ -28,7 +28,8 @@ func TestNewDBConfig(t *testing.T) {
 		os.Clearenv()
 		c, _ := New()
 		assert.Equal(t, c.LogLevel, 0)
-		assert.Equal(t, c.DBConnection, "root:root@tcp(localhost:3306)/test?parseTime=true&tls=preferred&charset=utf8")
+		assert.Equal(t, c.DBConfig.DBConnection, "root:root@tcp(localhost:3306)/test?parseTime=true&tls=preferred&charset=utf8")
+		assert.Equal(t, c.DBConfig.DBType, "mysql")
 		assert.Equal(t, c.AuthConfig, AuthConfig{
 			Domain:   "test.com",
 			ClientID: "test",
@@ -40,7 +41,8 @@ func TestNewDBConfig(t *testing.T) {
 		os.Setenv(ttype, "postgres")
 		c, _ := New()
 		assert.Equal(t, c.LogLevel, 0)
-		assert.Equal(t, c.DBConnection, "host=localhost port=5432 user=root password=root dbname=test sslmode=preferred")
+		assert.Equal(t, c.DBConfig.DBConnection, "host=localhost port=5432 user=root password=root dbname=test sslmode=preferred")
+		assert.Equal(t, c.DBConfig.DBType, "postgres")
 		assert.Equal(t, c.AuthConfig, AuthConfig{
 			Domain:   "test.com",
 			ClientID: "test",
@@ -56,7 +58,8 @@ func TestNewDBConfig(t *testing.T) {
 		os.Setenv(ttls, "true")
 		c, _ := New()
 		assert.Equal(t, c.LogLevel, 1)
-		assert.Equal(t, c.DBConnection, "testing:testing@tcp(testing:testing)/testing?parseTime=true&tls=true&charset=utf8")
+		assert.Equal(t, c.DBConfig.DBConnection, "testing:testing@tcp(testing:testing)/testing?parseTime=true&tls=true&charset=utf8")
+		assert.Equal(t, c.DBConfig.DBType, "mysql")
 		assert.Equal(t, c.AuthConfig, AuthConfig{
 			Domain:   "testing",
 			ClientID: "testing",
@@ -73,7 +76,8 @@ func TestNewDBConfig(t *testing.T) {
 		os.Setenv(ttype, "postgres")
 		c, _ := New()
 		assert.Equal(t, c.LogLevel, 1)
-		assert.Equal(t, c.DBConnection, "host=testing port=testing user=testing password=testing dbname=testing sslmode=true")
+		assert.Equal(t, c.DBConfig.DBConnection, "host=testing port=testing user=testing password=testing dbname=testing sslmode=true")
+		assert.Equal(t, c.DBConfig.DBType, "postgres")
 		assert.Equal(t, c.AuthConfig, AuthConfig{
 			Domain:   "testing",
 			ClientID: "testing",
@@ -84,7 +88,8 @@ func TestNewDBConfig(t *testing.T) {
 		os.Args = []string{"test", "-H", test, "-u", test, "-s", test, "-p", test, "-P", test, "-t", "true", "-d", "mysql", "-l", "1", "-D", test, "-S", test, "-c", test}
 		c, _ := New()
 		assert.Equal(t, c.LogLevel, 1)
-		assert.Equal(t, c.DBConnection, "testing:testing@tcp(testing:testing)/testing?parseTime=true&tls=true&charset=utf8")
+		assert.Equal(t, c.DBConfig.DBConnection, "testing:testing@tcp(testing:testing)/testing?parseTime=true&tls=true&charset=utf8")
+		assert.Equal(t, c.DBConfig.DBType, "mysql")
 		assert.Equal(t, c.AuthConfig, AuthConfig{
 			Domain:   "testing",
 			ClientID: "testing",
@@ -95,7 +100,8 @@ func TestNewDBConfig(t *testing.T) {
 		os.Args = []string{"test", "-H", test, "-u", test, "-s", test, "-p", test, "-P", test, "-t", "true", "-d", "postgres", "-l", "1", "-D", test, "-S", test, "-c", test}
 		c, _ := New()
 		assert.Equal(t, c.LogLevel, 1)
-		assert.Equal(t, c.DBConnection, "host=testing port=testing user=testing password=testing dbname=testing sslmode=true")
+		assert.Equal(t, c.DBConfig.DBConnection, "host=testing port=testing user=testing password=testing dbname=testing sslmode=true")
+		assert.Equal(t, c.DBConfig.DBType, "postgres")
 		assert.Equal(t, c.AuthConfig, AuthConfig{
 			Domain:   "testing",
 			ClientID: "testing",

@@ -37,15 +37,20 @@ var (
 )
 
 type Config struct {
-	DBConnection string
-	AuthConfig   AuthConfig
-	LogLevel     int
+	DBConfig   DBConfig
+	AuthConfig AuthConfig
+	LogLevel   int
 }
 
 type AuthConfig struct {
 	Domain   string
 	ClientID string
 	Secret   string
+}
+
+type DBConfig struct {
+	DBConnection string
+	DBType       string
 }
 
 type dbConfig struct {
@@ -118,10 +123,14 @@ func New() (*Config, error) {
 	}
 	l := newLoggerConfig()
 	l.SetLogging()
+	dbc := newDBConfig()
 	c := &Config{
-		DBConnection: newDBConfig().newDbConnectionString(),
-		LogLevel:     l.LogLevel,
-		AuthConfig:   newAuthConfig(),
+		DBConfig: DBConfig{
+			DBConnection: dbc.newDbConnectionString(),
+			DBType:       dbc.DBType,
+		},
+		LogLevel:   l.LogLevel,
+		AuthConfig: newAuthConfig(),
 	}
 	return c, nil
 }
